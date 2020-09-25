@@ -6,7 +6,7 @@ import peewee
 
 import toml_config
 import models
-from errors import UserIsPunished
+from errors import UserIsPunished, UserIsNotPunished
 
 db = peewee.SqliteDatabase('catnet.db')
 
@@ -114,6 +114,33 @@ class Moderation(commands.Cog):
             punishment_info = catnet.get_member(punishment.punished_id)
             await punishment_info.remove_roles(MUTE_ROLE)
             punishment.delete_instance()
+
+    @commands.command(
+            name = "размьют",
+            aliases = ["unmute", "размут"],
+            description = "Снять с человека мьют",
+            usage = "размьют [участник] (причина)"
+    )
+    async def moderation_command_unmute(self, ctx, member: discord.Member, *, reason: str = "Не указана"):
+        if models.Punishment.select().where(models.Punishment.punished_id == member.id):
+            punishment_info = models.Punishment.get(models.Punishment.punished_id == member.id)
+            MUTE_ROLE = discord.utils.get(ctx.guild.roles, id = MUTE_ROLE_ID)
+
+            await member.remove_roles(MUTE_ROLE)
+            punishment_info.delete_instance()
+
+            emb = discord.Embed(color = SUCCESS_COLOR)
+            emb.add_field(name = "Размьючен:", value = f"{member}")
+            emb.add_field(name = "Размьютил:", value = f"{ctx.author.mention}")
+            emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{SUCCESS_LINE}", inline = False)
+            emb.add_field(name = "Причина:", value = f"{reason}")
+            await ctx.send(embed = emb)
+
+        else:
+            if member in ctx.guild.members:
+                raise UserIsNotPunished(member)
+            else:
+                raise commands.BadArgument()
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
