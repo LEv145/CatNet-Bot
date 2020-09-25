@@ -31,10 +31,15 @@ async def on_ready():
     async def on_command_error(ctx, error):
         await errors.command_error_detection(ctx, error)
 
-if __name__ == "__main__":  # если запускаем именно этот файл то входим в бота
-
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
             bot.load_extension(f"cogs.{filename[:-3]}")
 
+if __name__ == "__main__":  # если запускаем именно этот файл то входим в бота
+
     bot.run(f'{config["discord"]["token"]}')
+
+
+
+
+
