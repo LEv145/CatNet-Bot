@@ -33,7 +33,10 @@ async def command_error_detection(ctx, error):
         embed.add_field(name = "Решение:", value = f"{solution}")
         await ctx.send(embed = embed)
         if ctx.message:
-            await ctx.message.delete()
+            try:
+                await ctx.message.delete()
+            except discord.errors.NotFound:
+                pass
 
     if isinstance(error, commands.CommandNotFound):
         await own_command_error_message(
@@ -50,9 +53,7 @@ async def command_error_detection(ctx, error):
         def make_readable(seconds):
             hours, seconds = divmod(seconds, 60 ** 2)
             minutes, seconds = divmod(seconds, 60)
-            return "{:02}ч : {:02}м : {:02}с".format(
-                round(hours), round(minutes), round(seconds)
-            )
+            return f"{round(hours)} ч, {round(minutes)} мин, {round(seconds)} сек"
 
         await own_command_error_message(
             "Команда с задержкой!",
@@ -70,3 +71,19 @@ async def command_error_detection(ctx, error):
                 "Вы упустили аргументы при\nиспользовании команды!",
                 f"Запишите команду по синтаксису:\n`{PREFIX}{ctx.command.usage}`"
         )
+
+    elif isinstance(error, UserIsPunished):
+
+        def make_readable(seconds):
+            hours, seconds = divmod(seconds, 60 ** 2)
+            minutes, seconds = divmod(seconds, 60)
+            return f"{round(hours)} ч, {round(minutes)} мин, {round(seconds)} сек"
+
+        await own_command_error_message(
+                "Пользователь уже замьючен!",
+                f"Замьютьте пользователя после размьюта!\n(через {make_readable(error.retry_after)})"
+        )
+
+class UserIsPunished(commands.CommandError):
+    def __init__(self, retry_after):
+        self.retry_after = retry_after
