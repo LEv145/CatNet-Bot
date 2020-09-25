@@ -84,6 +84,17 @@ async def command_error_detection(ctx, error):
                 f"Замьютьте пользователя после размьюта!\n(через {make_readable(error.retry_after)})"
         )
 
+    elif isinstance(error, UserIsNotPunished):
+
+        await own_command_error_message(
+                "Пользователь не замьючен!",
+                f"Замьютьте пользователя {error.member}, чтобы\nразмьютить его!"
+        )
+
 class UserIsPunished(commands.CommandError):
     def __init__(self, retry_after):
         self.retry_after = retry_after
+
+class UserIsNotPunished(commands.CommandError):
+    def __init__(self, member):
+        self.member = member
