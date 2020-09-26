@@ -8,6 +8,7 @@ import toml_config
 import models
 from errors import UserIsPunished, UserIsNotPunished
 
+
 db = peewee.SqliteDatabase('catnet.db')
 
 models.Punishment.create_table()
