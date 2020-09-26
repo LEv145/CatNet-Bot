@@ -30,7 +30,7 @@ HOUR_FORMAT_TUPLE = ("hours", "hour", "h", "часов", "час", "ч")
 MINUTE_FORMAT_TUPLE = ("minutes", "minute", "min", "m", "минуты", "минут", "мин", "м")
 HOUR = 60
 
-MUTE_ROLE_ID = conf["discord"]["mute_role_id"]
+MUTE_ROLE_ID = conf["bot"]["mute_role_id"]
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
