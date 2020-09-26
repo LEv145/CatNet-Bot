@@ -13,8 +13,6 @@ bot = commands.Bot(command_prefix = f'{config["bot"]["prefix"]}', case_insensiti
 
 MINUTE = 60
 
-MUTE_ROLE_ID = config["discord"]["mute_role_id"]
-
 
 @bot.event
 async def on_ready():
