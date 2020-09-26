@@ -1,5 +1,5 @@
 [discord]
-token = "blyat"
+token = "token"
 kick_members = "Выгонять участников"
 ban_members = "Блокировать участников"
 administrator = "Администратор"
@@ -34,6 +34,8 @@ view_guild_insights = "Смотреть аналитику сервера"
 
 [bot]
 prefix = "."
+mute_role_id = 707910628504895558
+logs_channel_id = 663047560117878784
 
 [messages.errors.success_line]
 emoji = "<:normal_line:749986920578416734>"
@@ -51,4 +53,4 @@ repeat = 14
 color = 0xff3d43
 
 [messages.errors]
-invisible_symbol = "⠀"
+invisible_symbol = "**⠀**"
