@@ -37,6 +37,21 @@ class Audition(commands.Cog):
         logs_channel = message.guild.get_channel(LOGS_CHANNEL_ID)
         await logs_channel.send(embed = emb)
 
+    @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        if after.author.bot:
+            return
+        emb = discord.Embed(color = STANDART_COLOR, timestamp = datetime.now())
+        emb.add_field(name = "Сообщение до:", value = f"```{before.content[:1000]}```", inline = False)
+        emb.add_field(name = "Сообщение после:", value = f"```{after.content[:1000]}```")
+        emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{STANDART_LINE}", inline = False)
+        emb.add_field(name = "ID сообщения:", value = f"{after.id}")
+        emb.add_field(name = "Автор сообщения:", value = f"{after.author}", inline = False)
+        emb.add_field(name = "Канал сообщения:", value = f"[{after.channel}]({after.jump_url})")
+        logs_channel = after.guild.get_channel(LOGS_CHANNEL_ID)
+        await logs_channel.send(embed = emb)
+
+
 def setup(bot):
     bot.add_cog(Audition(bot))
 
