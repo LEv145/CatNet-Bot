@@ -23,6 +23,34 @@ INVISIBLE_SYMBOL = conf["messages"]["errors"]["invisible_symbol"]
 
 LOGS_CHANNEL_ID = conf["bot"]["logs_channel_id"]
 
+
+async def role_audition_info(role, type_of_audition_color, type_of_audition_line):
+    """
+    функция для оповещения об удалении/создании роли на сервере
+
+    :param role: роль о которой сообщается
+    :param type_of_audition_color: цвет эмбеда
+    :param type_of_audition_line: линии для эмбеда
+    :return: информация о роли
+    """
+    emb = discord.Embed(color = type_of_audition_color, timestamp = datetime.now())
+    emb.add_field(name = "Роль:", value = f"{role.mention}")
+    emb.add_field(name = "Имя роли:", value = f"{role.name}", inline = False)
+    emb.add_field(name = "ID роли:", value = f"{role.id}")
+    emb.add_field(name = "Цвет роли:", value = f"{role.color}", inline = False)
+    emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{type_of_audition_line}", inline = False)
+    emb.add_field(name = "Права роли:", value = "\n".join(
+            permissions_config[f"{perm}"] for perm, boolean in role.permissions if boolean is True))
+    emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{type_of_audition_line}", inline = False)
+    emb.add_field(name = "Позиция роли:", value = f"{role.position} позиция")
+    emb.add_field(name = "Возможность упоминания для всех:", value = f"{on_off_dict[f'{role.mentionable}']}",
+                  inline = False)
+    emb.add_field(name = "Управление интеграциями:", value = f"{on_off_dict[f'{role.managed}']}")
+    emb.add_field(name = "Отдельное отображение:", value = f"{on_off_dict[f'{role.hoist}']}", inline = False)
+    logs_channel = role.guild.get_channel(LOGS_CHANNEL_ID)
+    await logs_channel.send(embed = emb)
+
+
 class Audition(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -54,23 +82,13 @@ class Audition(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_role_create(self, role):
-        emb = discord.Embed(color = SUCCESS_COLOR, timestamp = datetime.now())
-        emb.add_field(name = "Роль:", value = f"{role.mention}")
-        emb.add_field(name = "Имя роли:", value = f"{role.name}", inline = False)
-        emb.add_field(name = "ID роли:", value = f"{role.id}")
-        emb.add_field(name = "Цвет роли:", value = f"{role.color}", inline = False)
-        emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{SUCCESS_LINE}", inline = False)
-        emb.add_field(name = "Права роли:", value = "\n".join(permissions_config[f"{perm}"] for perm, boolean in role.permissions if boolean is True))
-        emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{SUCCESS_LINE}", inline = False)
-        emb.add_field(name = "Позиция роли:", value = f"{role.position} позиция")
-        emb.add_field(name = "Возможность упоминания для всех:", value = f"{on_off_dict[f'{role.mentionable}']}", inline = False)
-        emb.add_field(name = "Управление интеграциями:", value = f"{on_off_dict[f'{role.managed}']}")
-        emb.add_field(name = "Отдельное отображение:", value = f"{on_off_dict[f'{role.hoist}']}", inline = False)
-        logs_channel = role.guild.get_channel(LOGS_CHANNEL_ID)
-        await logs_channel.send(embed = emb)
+        await role_audition_info(role, SUCCESS_COLOR, SUCCESS_LINE)
+
+    @commands.Cog.listener()
+    async def on_guild_role_delete(self, role):
+        await role_audition_info(role, ERROR_COLOR, ERROR_LINE)
 
 
 def setup(bot):
     bot.add_cog(Audition(bot))
 
-    
