@@ -7,7 +7,8 @@ import toml_config
 
 
 conf = toml_config.load_config()
-
+permissions_config = toml_config.load_config()["discord"]
+on_off_dict = conf["on_off_dict"]
 
 SUCCESS_LINE = conf["messages"]["errors"]["success_line"]["emoji"] * conf["messages"]["errors"]["success_line"]["repeat"] + "\n "
 SUCCESS_COLOR = conf["messages"]["errors"]["success_line"]["color"]
@@ -49,6 +50,23 @@ class Audition(commands.Cog):
         emb.add_field(name = "Автор сообщения:", value = f"{after.author}", inline = False)
         emb.add_field(name = "Канал сообщения:", value = f"[{after.channel}]({after.jump_url})")
         logs_channel = after.guild.get_channel(LOGS_CHANNEL_ID)
+        await logs_channel.send(embed = emb)
+
+    @commands.Cog.listener()
+    async def on_guild_role_create(self, role):
+        emb = discord.Embed(color = SUCCESS_COLOR, timestamp = datetime.now())
+        emb.add_field(name = "Роль:", value = f"{role.mention}")
+        emb.add_field(name = "Имя роли:", value = f"{role.name}", inline = False)
+        emb.add_field(name = "ID роли:", value = f"{role.id}")
+        emb.add_field(name = "Цвет роли:", value = f"{role.color}", inline = False)
+        emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{SUCCESS_LINE}", inline = False)
+        emb.add_field(name = "Права роли:", value = "\n".join(permissions_config[f"{perm}"] for perm, boolean in role.permissions if boolean is True))
+        emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{SUCCESS_LINE}", inline = False)
+        emb.add_field(name = "Позиция роли:", value = f"{role.position} позиция")
+        emb.add_field(name = "Возможность упоминания для всех:", value = f"{on_off_dict[f'{role.mentionable}']}", inline = False)
+        emb.add_field(name = "Управление интеграциями:", value = f"{on_off_dict[f'{role.managed}']}")
+        emb.add_field(name = "Отдельное отображение:", value = f"{on_off_dict[f'{role.hoist}']}", inline = False)
+        logs_channel = role.guild.get_channel(LOGS_CHANNEL_ID)
         await logs_channel.send(embed = emb)
 
 
