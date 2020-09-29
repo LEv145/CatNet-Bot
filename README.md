@@ -1,5 +1,5 @@
 # CatNet-Bot
-![Онлайн в Discord](https://img.shields.io/discord/636658861209813000?label=CatNet) ![Лицензия репозитория](https://img.shields.io/github/license/AlekseyZz/CatNet-Bot?label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F) ![версия discord.py](https://img.shields.io/pypi/v/discord.py?label=discord.py&logo=discord.py) ![совместимости python с discord.py](https://img.shields.io/pypi/pyversions/discord.py)
+![Онлайн в Discord](https://img.shields.io/discord/636658861209813000?label=CatNet) ![Лицензия репозитория](https://img.shields.io/github/license/AlekseyZz/CatNet-Bot?label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F) ![версия discord.py](https://img.shields.io/pypi/v/discord.py?label=discord.py&logo=discord.py) ![совместимости python с discord.py](https://img.shields.io/pypi/pyversions/discord.py) ![размер репозитория](https://img.shields.io/github/repo-size/AlekseyZz/CatNet-Bot?label=%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%20%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D1%8F)
 
 
 Discord бот для сервера [CatNet](https://discord.gg/Grdxu4q)
