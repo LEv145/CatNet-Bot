@@ -9,7 +9,7 @@ import errors
 db = peewee.SqliteDatabase('catnet.db')
 
 config = toml_config.load_config()
-bot = commands.Bot(command_prefix = f'{config["bot"]["prefix"]}', case_insensitive = True)
+bot = commands.Bot(command_prefix = f'{config["bot"]["prefix"]}', case_insensitive = True, guild_subscriptions = True)
 
 MINUTE = 60
 
