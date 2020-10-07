@@ -10,6 +10,7 @@ python = "^3.6"
 tomlkit = "^0.7.0"
 loguru = "^0.5.1"
 peewee = "^3.13.3"
+automium_web = "^0.1.1"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"

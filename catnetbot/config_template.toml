@@ -58,5 +58,5 @@ color = 0xff3d43
 invisible_symbol = "** **"
 
 [on_off_dict]
-True = "Включено ✅"
-False = "Отключено ❌"
+True = "<:discord_on:763327382659661835>"
+False = "<:discord_off:763327382672113664>"
