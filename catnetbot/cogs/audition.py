@@ -52,6 +52,53 @@ async def role_audition_info(role, type_of_audition_color, type_of_audition_line
     await logs_channel.send(embed = emb)
 
 
+async def role_updating_info(before: discord.Role, after: discord.Role) -> None:
+    """
+    функция для оповещения об обновлении роли на сервере
+
+    :param before: роль паньше
+    :param after: роль после
+    :return: информация об обновлённой роли
+    """
+
+    emb = discord.Embed(color = STANDART_COLOR, timestamp = datetime.now())
+    emb.add_field(name = "Роль:", value = f"{after.mention}", inline = False)
+    emb.add_field(name = "ID роли:", value = f"{after.id}", inline = False)
+    emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{STANDART_LINE}", inline = False)
+
+    before_permissions = [perm for perm, boolean in before.permissions if boolean]
+    after_permissions = [perm for perm, boolean in after.permissions if boolean]
+
+    added_permissions = [permissions_config[f'{perm}'] for perm in after_permissions if perm not in before_permissions]
+    deleted_permissions = [permissions_config[f'{perm}'] for perm in before_permissions if perm not in after_permissions]
+
+    if added_permissions or deleted_permissions:
+        if added_permissions:
+            emb.add_field(name = "Добавленные права:", value = "\n".join(added_permissions), inline = False)
+        if deleted_permissions:
+            emb.add_field(name = "Удалённые права:", value = "\n".join(deleted_permissions), inline = False)
+        emb.add_field(name = f"{INVISIBLE_SYMBOL}", value = f"{STANDART_LINE}", inline = False)
+
+    emb.add_field(name = "Дополнительно (раньше):", value = f"""
+                                                        Название: {before.name}
+                                                        Цвет: {before.color}
+                                                        Позиция: {before.position} в списке
+                                                        Возможность упоминания для всех: {on_off_dict[f'{before.mentionable}']}
+                                                        Управление интеграциями: {on_off_dict[f'{before.managed}']}
+                                                        Отдельное отображение: {on_off_dict[f'{before.hoist}']}
+                                                        """, inline = False)
+    emb.add_field(name = "Дополнительно (сейчас):", value = f"""
+                                                        Название: {after.name}
+                                                        Цвет: {after.color}
+                                                        Позиция: {after.position} в списке 
+                                                        Возможность упоминания для всех: {on_off_dict[f'{after.mentionable}']}
+                                                        Управление интеграциями: {on_off_dict[f'{after.managed}']}
+                                                        Отдельное отображение : {on_off_dict[f'{after.hoist}']}
+                                                        """, inline = False)
+    logs_channel = after.guild.get_channel(LOGS_CHANNEL_ID)
+    await logs_channel.send(embed = emb)
+
+
 async def channel_audition_info(channel, type_of_audition_color, type_of_audition_line) -> None:
     """
     функция для оповещения об удалении/создании канала на сервере
@@ -135,6 +182,10 @@ class Audition(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_role_create(self, role):
         await role_audition_info(role, SUCCESS_COLOR, SUCCESS_LINE)
+
+    @commands.Cog.listener()
+    async def on_guild_role_update(self, before, after):
+        await role_updating_info(before, after)
 
     @commands.Cog.listener()
     async def on_guild_role_delete(self, role):
