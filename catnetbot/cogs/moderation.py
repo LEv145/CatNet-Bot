@@ -36,7 +36,7 @@ class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.mute_expiry.start()
-        
+
     @commands.command(
             name = "кик",
             aliases = ["kick", "выгнать", "кикнуть"],
@@ -63,8 +63,7 @@ class Moderation(commands.Cog):
             usage = "бан [участник] (причина)",
     )
     @commands.has_permissions(ban_members = True)
-    async def moderation_command_ban(self, ctx, member: discord.Member, reason = "Не указана"):
-
+    async def moderation_command_ban(self, ctx, member: discord.Member, *, reason = "Не указана"):
         await member.ban(reason = reason + f" ({ctx.author.name})")
         emb = discord.Embed(color = SUCCESS_COLOR)
         emb.add_field(name = "Забанен:", value = f"{member}")
@@ -120,9 +119,10 @@ class Moderation(commands.Cog):
             name = "размьют",
             aliases = ["unmute", "размут"],
             description = "Снять с человека мьют",
-            usage = "размьют [участник] (причина)"
+            usage = "размьют [участник] (причина)",
     )
     async def moderation_command_unmute(self, ctx, member: discord.Member, *, reason: str = "Не указана"):
+
         if models.Punishment.select().where(models.Punishment.punished_id == member.id):
             punishment_info = models.Punishment.get(models.Punishment.punished_id == member.id)
             MUTE_ROLE = discord.utils.get(ctx.guild.roles, id = MUTE_ROLE_ID)
@@ -138,10 +138,8 @@ class Moderation(commands.Cog):
             await ctx.send(embed = emb)
 
         else:
-            if member in ctx.guild.members:
-                raise UserIsNotPunished(member)
-            else:
-                raise commands.BadArgument()
+            raise UserIsNotPunished(member)
+
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
