@@ -27,7 +27,7 @@ LOGS_CHANNEL_ID = conf["bot"]["logs_channel_id"]
 
 async def role_audition_info(role, type_of_audition_color, type_of_audition_line) -> None:
     """
-    функция для оповещения об удалении/создании роли на сервере
+    функция для оповещения об удалении или создании роли на сервере
 
     :param role: роль о которой сообщается
     :param type_of_audition_color: цвет эмбеда
