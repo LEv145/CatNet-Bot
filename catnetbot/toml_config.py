@@ -12,7 +12,7 @@ from loguru import logger as l
 
 
 FILE_NAME = "config.toml"
-CONFIG_PATH = f"../{FILE_NAME}"
+CONFIG_PATH = f"{FILE_NAME}"
 
 
 def copy_template():
