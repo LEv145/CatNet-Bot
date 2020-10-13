@@ -40,13 +40,13 @@ async def command_error_detection(ctx, error):
 
     if isinstance(error, commands.CommandNotFound):
         await own_command_error_message(
-            "Команда не найдена!",
-            "Используйте существующую команду,\nкоторая есть в списке `.help`",
+                "Команда не найдена!",
+                f"Используйте существующую команду,\nкоторая есть в списке `{PREFIX}help`",
         )
     elif isinstance(error, commands.DisabledCommand):
         await own_command_error_message(
-            "Команда отключена!",
-            "Используйте другую, активированную\n в данный момент команду",
+                "Команда отключена!",
+                "Используйте другую, активированную\n в данный момент команду",
         )
     elif isinstance(error, commands.CommandOnCooldown):
 
@@ -56,13 +56,14 @@ async def command_error_detection(ctx, error):
             return f"{round(hours)} ч, {round(minutes)} мин, {round(seconds)} сек"
 
         await own_command_error_message(
-            "Команда с задержкой!",
-            f"Используйте данную команду \nпосле `{make_readable(error.retry_after)}` ⏳",
+                "Команда с задержкой!",
+                f"Используйте данную команду \nпосле `{make_readable(error.retry_after)}` ⏳",
         )
     elif isinstance(error, commands.MissingPermissions):
         await own_command_error_message(
                 "У Вас недостаточно прав!",
-                "Получите следующие права:\n" + "\n".join([permissions_config[f"{perm}"] for perm in error.missing_perms])
+                "Получите следующие права:\n" + "\n".join(
+                        [permissions_config[f"{perm}"] for perm in error.missing_perms])
         )
 
     elif isinstance(error, commands.MissingRequiredArgument):
@@ -70,6 +71,13 @@ async def command_error_detection(ctx, error):
         await own_command_error_message(
                 "Вы упустили аргументы при\nиспользовании команды!",
                 f"Запишите команду по синтаксису:\n`{PREFIX}{ctx.command.usage}`"
+        )
+
+    elif isinstance(error, commands.BadArgument):
+
+        await own_command_error_message(
+                "Вы указали не существующий обьект!",
+                f"Укажите существующий обьект при использовании:\n`{PREFIX}{ctx.command.usage}`"
         )
 
     elif isinstance(error, UserIsPunished):
@@ -88,12 +96,13 @@ async def command_error_detection(ctx, error):
 
         await own_command_error_message(
                 "Пользователь не замьючен!",
-                f"Замьютьте пользователя {error.member}, чтобы\nразмьютить его!"
+                f"Замьютьте {error.member} чтобы размьютить!"
         )
 
 class UserIsPunished(commands.CommandError):
     def __init__(self, retry_after):
         self.retry_after = retry_after
+
 
 class UserIsNotPunished(commands.CommandError):
     def __init__(self, member):
