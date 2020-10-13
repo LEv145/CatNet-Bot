@@ -1,8 +1,8 @@
-from discord import utils
 from discord.ext import commands
 from loguru import logger
-import toml_config
 import os
+
+import toml_config
 import peewee
 import errors
 
@@ -22,7 +22,7 @@ async def on_ready():
     logger.info(f"Бот вошёл в сеть. Аккаунт: {bot.user}, ID аккаунта: {bot.user.id}")
 
     @bot.event
-    async def on_command(ctx):
+    async def on_command_completion(ctx):
         await ctx.message.delete()
 
     @bot.event
