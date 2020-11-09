@@ -1,10 +1,12 @@
-from discord.ext import commands
-from loguru import logger
 import os
 
-import toml_config
+from discord.ext import commands
+from loguru import logger
 import peewee
+
+import toml_config
 import errors
+
 
 db = peewee.SqliteDatabase('catnet.db')
 
