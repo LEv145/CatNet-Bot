@@ -81,8 +81,7 @@ class Moderation(commands.Cog):
     )
     @commands.has_permissions(manage_messages = True)
     async def moderation_command_mute(self, ctx, member: discord.Member, duration: int, duration_format: str, *, reason: str = "Не указана"):
-        if models.Punishment.select().where(models.Punishment.punished_id == member.id):
-            punishment_info = models.Punishment.get(models.Punishment.punished_id == member.id)
+        if punishment_info := models.Punishment.get(models.Punishment.punished_id == member.id):
             punishment_timedelta = punishment_info.punishment_until - datetime.datetime.now()
             raise UserIsPunished(punishment_timedelta.total_seconds())
         else:
@@ -123,8 +122,7 @@ class Moderation(commands.Cog):
     )
     async def moderation_command_unmute(self, ctx, member: discord.Member, *, reason: str = "Не указана"):
 
-        if models.Punishment.select().where(models.Punishment.punished_id == member.id):
-            punishment_info = models.Punishment.get(models.Punishment.punished_id == member.id)
+        if punishment_info := models.Punishment.get(models.Punishment.punished_id == member.id):
             MUTE_ROLE = discord.utils.get(ctx.guild.roles, id = MUTE_ROLE_ID)
 
             await member.remove_roles(MUTE_ROLE)
