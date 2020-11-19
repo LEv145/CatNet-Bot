@@ -13,5 +13,8 @@ Discord бот для сервера [CatNet](https://discord.gg/Grdxu4q)
 ## Поддержка
 Discord сервер - https://discord.gg/Grdxu4q
 
-
 Discord создателя бота - Aleksey#4360
+
+## Запуск бота
+
+Для запуска бота надо клонировать репозиторий и создать для него виртуальное окружение через [poetry](https://python-poetry.org/), перед запуском бота убедитесь, что в ![config_template.toml](https://github.com/AlekseyZz/CatNet-Bot/blob/master/catnetbot/config_template.toml) вписали токен бота и свои пользовательские эмодзи.
