@@ -4,8 +4,8 @@ from discord.ext import commands
 from loguru import logger
 import peewee
 
-import toml_config
-import errors
+from catnetbot import toml_config
+from catnetbot import errors
 
 
 db = peewee.SqliteDatabase('catnet.db')
@@ -31,6 +31,7 @@ async def on_ready():
     async def on_command_error(ctx, error):
         await errors.command_error_detection(ctx, error)
 
+    bot.load_extension("jishaku")
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
             bot.load_extension(f"cogs.{filename[:-3]}")
