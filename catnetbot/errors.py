@@ -1,21 +1,19 @@
-"""Ког с ошибками"""
 import discord
 from discord.ext import commands
-import toml_config  # я не помню откуда питон ищет модули, вроде из места запуска
 
-# На этом моменте может что ни будь сломаться т.к. не проверял, но должно работать
+from catnetbot import toml_config
+
 
 conf = toml_config.load_config()["messages"]["errors"]
 
-permissions_config = toml_config.load_config()["discord"]
-
-PREFIX = toml_config.load_config()["bot"]["prefix"]
+permissions_config = conf["discord"]
+PREFIX = conf["bot"]["prefix"]
 
 SUCCESS_LINE = conf["success_line"]["emoji"] * conf["success_line"]["repeat"] + "\n "
 SUCCESS_COLOR = conf["success_line"]["color"]
 
-STANDART_LINE = conf["standard_line"]["emoji"] * conf["standard_line"]["repeat"] + "\n⠀"
-STANDART_COLOR = conf["standard_line"]["color"]
+STANDARD_LINE = conf["standard_line"]["emoji"] * conf["standard_line"]["repeat"] + "\n⠀"
+STANDARD_COLOR = conf["standard_line"]["color"]
 
 ERROR_LINE = conf["error_line"]["emoji"] * conf["error_line"]["repeat"] + "\n⠀"
 ERROR_COLOR = conf["error_line"]["color"]
@@ -32,6 +30,7 @@ async def command_error_detection(ctx, error):
         )
         embed.add_field(name = "Решение:", value = f"{solution}")
         await ctx.send(embed = embed)
+
         if ctx.message:
             try:
                 await ctx.message.delete()
@@ -49,7 +48,6 @@ async def command_error_detection(ctx, error):
                 "Используйте другую, активированную\n в данный момент команду",
         )
     elif isinstance(error, commands.CommandOnCooldown):
-
         def make_readable(seconds):
             hours, seconds = divmod(seconds, 60 ** 2)
             minutes, seconds = divmod(seconds, 60)
@@ -67,21 +65,18 @@ async def command_error_detection(ctx, error):
         )
 
     elif isinstance(error, commands.MissingRequiredArgument):
-
         await own_command_error_message(
                 "Вы упустили аргументы при\nиспользовании команды!",
                 f"Запишите команду по синтаксису:\n`{PREFIX}{ctx.command.usage}`"
         )
 
     elif isinstance(error, commands.BadArgument):
-
         await own_command_error_message(
                 "Вы указали не существующий обьект!",
                 f"Укажите существующий обьект при использовании:\n`{PREFIX}{ctx.command.usage}`"
         )
 
-    elif isinstance(error, UserIsPunished):
-
+    elif isinstance(error, UserIsMutedError):
         def make_readable(seconds):
             hours, seconds = divmod(seconds, 60 ** 2)
             minutes, seconds = divmod(seconds, 60)
@@ -92,18 +87,28 @@ async def command_error_detection(ctx, error):
                 f"Замьютьте пользователя после размьюта!\n(через {make_readable(error.retry_after)})"
         )
 
-    elif isinstance(error, UserIsNotPunished):
-
+    elif isinstance(error, UserIsNotMutedError):
         await own_command_error_message(
                 "Пользователь не замьючен!",
                 f"Замьютьте {error.member} чтобы размьютить!"
         )
 
-class UserIsPunished(commands.CommandError):
+
+class UserIsMutedError(commands.CommandError):
+    """
+    Класс исключения, который вызывается когда
+    пользователя пытаются замьютить, а он уже замьючен.
+    """
+
     def __init__(self, retry_after):
         self.retry_after = retry_after
 
 
-class UserIsNotPunished(commands.CommandError):
+class UserIsNotMutedError(commands.CommandError):
+    """
+    Класс исключения, который вызываетя когда
+    пользователя пытаються размьютить, а он уже размьючен.
+    """
+
     def __init__(self, member):
         self.member = member
