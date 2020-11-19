@@ -11,6 +11,7 @@ loguru = "^0.5.1"
 automium_web = "^0.1.1"
 peewee = "^3.13.3"
 "discord.py" = "1.4.2"
+jishaku = "^1.19.2"
 
 [tool.poetry.dev-dependencies]
 
