@@ -1,11 +1,11 @@
-# CatNet-Bot [Проект закрыт]
+# CatNet-Bot
 ![Онлайн в Discord](https://img.shields.io/discord/636658861209813000?label=CatNet) ![Лицензия репозитория](https://img.shields.io/github/license/AlekseyZz/CatNet-Bot?label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F) ![версия discord.py](https://img.shields.io/pypi/v/discord.py?label=discord.py&logo=discord.py) ![совместимости python с discord.py](https://img.shields.io/pypi/pyversions/discord.py) ![размер репозитория](https://img.shields.io/github/repo-size/AlekseyZz/CatNet-Bot?label=%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%20%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D1%8F)
 
 
 Discord бот для сервера [CatNet](https://discord.gg/Grdxu4q)
 
 ## Информация
-Проект открываеться и перерабатываеться.
+Проект открывается и перерабатывается.
 
 Бот разрабатывался на языке программирования Python, с применением библиотеки [discord.py](https://discordpy.readthedocs.io/en/latest/api.html), любой человек мог помочь в разработке бота, и внести своё имя в историю сервера. Человек внёсший небольшой вклад в разработку мог получить уникальную роль разработчика бота на сервере CatNet, по завершению разработки 1 версии. После выхода 1 версии всё также будет возможность получить роль, создавая дополнения. Любые изменения, которые Вы вносите в репозиторий будут отображаться в виде вебхука на сервере. 1 версия бота так и не вышла.
 
