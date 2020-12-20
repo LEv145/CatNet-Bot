@@ -16,6 +16,7 @@ Discord бот для сервера [CatNet](https://discord.gg/Grdxu4q)
 Discord сервер - https://discord.gg/Grdxu4q
 
 Discord создателя бота - Aleksey#4360
+
 Forker - 🎄LЕv145🎄#9261
 
 ## Запуск бота
