@@ -39,10 +39,6 @@ class Bot(commands.AutoShardedBot):
     async def on_command_error(ctx, error):
         await errors.command_error_detection(ctx, error)
 
-if __name__ == "__main__":  # если запускаем именно этот файл то входим в бота
-
-    bot.run(f'{config["discord"]["token"]}')
-
 
 
 
