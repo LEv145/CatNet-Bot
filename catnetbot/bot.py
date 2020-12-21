@@ -1,6 +1,5 @@
 from discord.ext import commands
 from loguru import logger
-from catnetbot import toml_config
 from catnetbot import errors
 
 class Bot(commands.AutoShardedBot):
