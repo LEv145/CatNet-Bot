@@ -2,6 +2,8 @@ from discord.ext import commands
 from loguru import logger
 from catnetbot import errors
 
+
+# !!!!!!!!!Пока код не работает, потом если наймусь проектом - доделаю!!!!!!!!!!
 class Bot(commands.AutoShardedBot):
     def __init__(self, token, prefix) -> None:
 
